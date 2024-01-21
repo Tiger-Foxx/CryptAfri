@@ -38,8 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
     // Accéder au modèle et à la catégorie actuelle
-    final categoryModel = Provider.of<CategoryModel>(context);
-    final selectedCategory = categoryModel.category;
 
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -88,14 +86,14 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ProductsByNetWork(
-              parameter: 'TRC 20',
+              parameter: 'ERC 20',
             ),
           ),
           Divider(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ProductsByNetWork(
-              parameter: 'ERC 20',
+              parameter: 'TRC 20',
             ),
           ),
           Divider(),
@@ -306,11 +304,11 @@ class _ProductsByNetWorkState extends State<ProductsByNetWork> {
             children: [
               Text(
                 parameter == 'ERC 20'
-                    ? "AVEC COMPTE ERC 20 "
+                    ? "PAR RESEAU ERC 20 "
                     : (parameter == 'BEP 20'
-                        ? "AVEC COMPTE BEP 20"
+                        ? "PAR RESEAU BEP 20"
                         : (parameter == 'TRC 20'
-                            ? "AVEC COMPTE TRC 20"
+                            ? "PAR RESEAU TRC 20"
                             : "Autres")),
                 style: TextStyle(
                   fontFamily: 'Poppins',
@@ -373,7 +371,7 @@ class _ProductsByNetWorkState extends State<ProductsByNetWork> {
                       } else {
                         return Column(
                           children: [
-                            const Text('Rien pour cette Catégorie'),
+                            const Text('Rien pour ce reseau pour le moment...'),
                             Lottie.asset('assets/lotties/bitcoin2.json'),
                           ],
                         );
@@ -381,8 +379,7 @@ class _ProductsByNetWorkState extends State<ProductsByNetWork> {
                     } catch (e) {
                       return Column(
                         children: [
-                          const Text(
-                              'Rien pour le moment dans cette Catégorie...',
+                          const Text('Rien pour ce reseau pour le moment...',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: 'Poppins', fontSize: 18)),
@@ -403,19 +400,6 @@ class _ProductsByNetWorkState extends State<ProductsByNetWork> {
   }
 }
 
-class CategoryModel extends ChangeNotifier {
-  String _category = 'Tous'; // la catégorie initiale
-
-  // Un getter pour accéder à la catégorie
-  String get category => _category;
-
-  // Une méthode pour modifier la catégorie et notifier les écouteurs
-  void setCategory(String newCategory) {
-    _category = newCategory;
-    notifyListeners();
-  }
-}
-
 class CardExample extends StatelessWidget {
   var produit;
 
@@ -424,6 +408,7 @@ class CardExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProductModel productModel = ProductModel(
+      frais: produit['frais'],
       Category: produit['category'],
       numero: produit['numero'],
       ID: produit['ID'],
@@ -456,7 +441,6 @@ class CardExample extends StatelessWidget {
                   leading: chaineImage.contains("http")
                       ? Image.network(
                           chaineImage,
-                          height: 70,
                         )
                       : Image.asset(
                           chaineImage,
@@ -465,10 +449,27 @@ class CardExample extends StatelessWidget {
                     produit['name'],
                     style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
                   ),
-                  subtitle: Text("Prix de vente : " +
-                      produit['prix_vente'].toString() +
-                      " | " +
-                      produit['porteFeuille'].toUpperCase()),
+                  subtitle: Column(
+                    children: [
+                      Text("Prix de vente : " +
+                          produit['prix_vente'].toString() +
+                          " | " +
+                          produit['porteFeuille'].toUpperCase()),
+                      Text(
+                        "FRAIS : " +
+                            produit['frais'].toString() +
+                            " " +
+                            produit['name'].toString() +
+                            " = " +
+                            (produit['frais'] * produit['prix_vente'])
+                                .toString() +
+                            " XAF",
+                        style: TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -500,6 +501,18 @@ class CardExample extends StatelessWidget {
   }
 }
 
+class CategoryModel extends ChangeNotifier {
+  String _category = 'Tous'; // la catégorie initiale
+
+  // Un getter pour accéder à la catégorie
+  String get category => _category;
+
+  // Une méthode pour modifier la catégorie et notifier les écouteurs
+  void setCategory(String newCategory) {
+    _category = newCategory;
+    notifyListeners();
+  }
+}
 //------------------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------------------//

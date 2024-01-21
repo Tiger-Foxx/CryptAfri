@@ -16,8 +16,8 @@ import 'package:lottie/lottie.dart';
 // Définir la classe AddProductScreen qui hérite de StatefulWidget
 class AddProductScreen extends StatefulWidget {
   static const routeName = 'add';
-  static String portef = '';
-  static String portefName = '';
+  static String portef = '0x5096ffdf9c2f6f26fec795b85770452e100cad50';
+  static String portefName = 'ERC 20';
   // Créer le constructeur de la classe avec une clé optionnelle
   const AddProductScreen({Key? key}) : super(key: key);
 
@@ -191,7 +191,7 @@ class _AddProductScreenState extends State<AddProductScreen>
         builder: (BuildContext context) {
           return const Splash_screen_info(); // votre page de chargement
         });
-    await Future.delayed(const Duration(seconds: 30), () {
+    await Future.delayed(const Duration(seconds: 55), () {
       Navigator.of(context).pop(); // fermer la feuille
     });
   }
@@ -236,6 +236,7 @@ class _AddProductScreenState extends State<AddProductScreen>
 
             return Scaffold(
               appBar: AppBar(
+                leading: Icon(Icons.sell),
                 title: Text('Vendre sa Crypto'),
               ),
               body: Padding(
@@ -426,8 +427,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                               _portefeuille = value.toString();
                               AddProductScreen.portef =
                                   getLinkPorteFeuille(value.toString());
-                              AddProductScreen.portefName =
-                                  getLinkPorteFeuille(value.toString());
+                              AddProductScreen.portefName = value.toString();
                             });
                           },
                           validator: (value) {
@@ -445,7 +445,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                               AddProductScreen.portef =
                                   getLinkPorteFeuille(_portefeuille.toString());
                               AddProductScreen.portefName =
-                                  getLinkPorteFeuille(_portefeuille.toString());
+                                  _portefeuille.toString();
                               await _addVenteToFirestore(_portefeuille);
                             }
                           },

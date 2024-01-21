@@ -152,7 +152,11 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profil'),
+        leading: Icon(Icons.info),
+        title: Text(
+          'Informations CryptAfri',
+          style: TextStyle(fontSize: 18),
+        ),
         actions: [
           // Le bouton des notifications avec le badge
           Padding(

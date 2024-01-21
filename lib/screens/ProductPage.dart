@@ -14,8 +14,16 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  final _formKey = GlobalKey<FormState>();
   @override
   var fav = false;
+  int number = 0;
+  String? Reseau;
+  String? Nom;
+  String? numero;
+  String? adressePorteFeuille;
+  String? ID;
+  int prix = 0;
   void makeFav() {
     setState(() {
       fav = !fav;
@@ -34,6 +42,8 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     final product = ModalRoute.of(context)!.settings.arguments as ProductModel;
+    Reseau = product.porteFeuille;
+    String chaineImage = product.image;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -47,23 +57,26 @@ class _ProductPageState extends State<ProductPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton.icon(
                   icon: Icon(
-                    !fav ? Icons.favorite_border : Icons.favorite,
+                    !fav ? Icons.money_off : Icons.favorite,
                     color: Colors.red,
                   ),
                   onPressed: () {
                     makeFav();
                   },
-                  label: Text("Aimer"),
+                  label: Text("Info Crypto"),
                 ),
               ),
             ],
             flexibleSpace: FlexibleSpaceBar(
               background: Hero(
                 tag: product.ID,
-                child: Image.network(
-                  product.image.toString(),
-                  fit: BoxFit.cover,
-                ),
+                child: chaineImage.contains("http")
+                    ? Image.network(
+                        chaineImage,
+                      )
+                    : Image.asset(
+                        chaineImage,
+                      ),
               ),
             ),
           ),
@@ -99,7 +112,7 @@ class _ProductPageState extends State<ProductPage> {
                   Container(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      "( " + product.Category.toString() + " )",
+                      " RESEAU : " + product.porteFeuille.toString() + " ",
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
@@ -108,31 +121,15 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      SizedBox(width: 40),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.shop),
-                          label: Text("Valider l'achat"),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 80,
-                        width: 80,
-                        child: Lottie.asset('assets/lotties/buy.json'),
-                      ),
-                    ],
-                  ),
                   Container(
                     padding: EdgeInsets.all(15.0),
                     child: Text(
                       "Prix d'achat : " +
                           product.prix_achat.toString() +
-                          " |Prix de Vente : " +
-                          product.prix_vente.toString(),
+                          " XAF" +
+                          "\nPrix de Vente : " +
+                          product.prix_vente.toString() +
+                          " XAF",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Poppins',
@@ -145,11 +142,17 @@ class _ProductPageState extends State<ProductPage> {
                   Container(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      '1 ' +
+                      number.toString() +
+                          " " +
                           product.name +
-                          ' = ' +
-                          product.prix_vente.toString() +
-                          ' XAF',
+                          " + " +
+                          product.frais.toString() +
+                          " (frais) "
+                              '\n' +
+                          (product.prix_vente * (number + product.frais))
+                              .toString() +
+                          ' XAF |Total',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
@@ -158,15 +161,149 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text(
-                      "Disponible : " + product.quantity.toString(),
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 243, 171, 36),
-                        fontSize: 20,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Form(
+                      // Utiliser la clé globale pour le formulaire
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          // Créer un champ de texte pour le nombre
+                          TextFormField(
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900),
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(color: Colors.white),
+                              labelText: 'Quantite Voulue',
+                              border: OutlineInputBorder(),
+                            ),
+                            // Valider que le champ contient un nombre entier
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  int.tryParse(value) == null) {
+                                return 'Veuillez entrer un nombre entier';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                number = int.parse(value!);
+                                print(value);
+                              });
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                number = int.parse(value!);
+                                print(value);
+                              });
+                            },
+                          ),
+
+                          SizedBox(height: 16.0),
+                          // Créer un champ de texte pour le nom
+                          TextFormField(
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900),
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(color: Colors.white),
+                              labelText: 'Votre Nom',
+                              border: OutlineInputBorder(),
+                            ),
+                            // Valider que le champ n'est pas vide
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Veuillez entrer votre nom';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                Nom = value;
+                                print(value);
+                              });
+                            },
+                          ),
+                          SizedBox(height: 16.0),
+                          // Créer un champ de texte pour le numéro
+                          TextFormField(
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900),
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(color: Colors.white),
+                              labelText: 'Numero de Tel',
+                              border: OutlineInputBorder(),
+                            ),
+                            // Valider que le champ contient un numéro de téléphone valide
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !value.startsWith('+') ||
+                                  value.length < 10) {
+                                return 'Veuillez entrer un numéro de téléphone valide';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                numero = value;
+                                print(value);
+                              });
+                            },
+                          ),
+                          SizedBox(height: 16.0),
+                          // Créer un champ de texte pour l'adresse du portefeuille
+                          TextFormField(
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900),
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(color: Colors.white),
+                              labelText:
+                                  'Votre Adresse : ' + product.porteFeuille,
+                              border: OutlineInputBorder(),
+                            ),
+                            // Valider que le champ n'est pas vide
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Veuillez entrer l'adresse de votre portefeuille";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                adressePorteFeuille = value;
+                                print(value);
+                              });
+                            },
+                          ),
+
+                          SizedBox(height: 16.0),
+                          // Créer un bouton pour valider le formulaire
+                          Row(
+                            children: [
+                              SizedBox(width: 40),
+                              Padding(
+                                padding: EdgeInsets.all(8),
+                                child: ElevatedButton.icon(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.money_off),
+                                  label: Text("Valider l'achat"),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 80,
+                                width: 80,
+                                child: Lottie.asset('assets/lotties/buy.json'),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -197,13 +334,13 @@ class _ProductPageState extends State<ProductPage> {
                             );
                           },
                           icon: const Icon(Icons.phone),
-                          label: Text("Convertir sa quantite"),
+                          label: Text("Service Client"),
                         ),
                       ),
                       SizedBox(
                         height: 80,
                         width: 80,
-                        child: Lottie.asset('assets/lotties/buy.json'),
+                        child: Image.asset('assets/images/what.png'),
                       ),
                     ],
                   ),
