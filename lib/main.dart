@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cryptafri/screens/Splash_screen_info.dart';
+import 'package:cryptafri/screens/Splash_screen_info2.dart';
 import 'package:cryptafri/screens/services/firebase_api.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +81,8 @@ class MainApp extends StatelessWidget {
         routes: {
           Splash_screen.routeName: (context) => const Splash_screen(),
           Splash_screen_info.routeName: (context) => const Splash_screen_info(),
+          Splash_screen_info2.routeName: (context) =>
+              const Splash_screen_info2(),
           OnboardingScreen.routeName: (context) => const OnboardingScreen(),
           SignInScreen.routeName: (context) => const SignInScreen(),
           SignUpScreen.routeName: (context) => const SignUpScreen(),

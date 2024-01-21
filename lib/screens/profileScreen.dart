@@ -8,8 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ProfilePage extends StatelessWidget {
+  static String email = 'donfackarthur750@gmail.com';
+  static String OM = "658121197";
+  static String MOMO = "678585611";
+  static String whatsapp = '+237678585611';
+  static String ERC20 = "0x5096ffdf9c2f6f26fec795b85770452e100cad50";
+  static String BEP20 = "0x5096ffdf9c2f6f26fec795b85770452e100cad50";
+  static String TRC20 = "TWNBb1W76TwQ1HXwFir3SxD5D9sE3d64Lu";
   String? getUserEmail() {
     var _Auth = FirebaseAuth.instance;
+
     // Obtenir l'objet User avec un null check
     User user = _Auth.currentUser!;
     // Retourner l'email de l'utilisateur
@@ -25,11 +33,11 @@ class ProfilePage extends StatelessWidget {
     {
       'icon': "assets/images/what.jpeg",
       'title': 'Nous Contacter',
-      'data': "+237678585611",
+      'data': whatsapp,
       'onTap': (context) {
         var message =
             'MESSAGE CRYPTAFRI ! \nASSISTANCE CLIENT\n\n\n\n Bonjour je suis : ';
-        var number = '+237678585611';
+        var number = whatsapp;
         // Encoder le message
         String encodedMessage = Uri.encodeComponent(message);
 
@@ -46,10 +54,10 @@ class ProfilePage extends StatelessWidget {
     },
     {
       'icon': "assets/images/OM.png",
-      'title': 'Orange Money CriptAfri(GAMGNE CELINE) : 658121197',
-      'data': "#150*1*1*658121197#",
+      'title': 'Orange Money CriptAfri \n(GAMGNE CELINE) | 658121197',
+      'data': "#150*1*1*" + OM + "#",
       'onTap': (context) {
-        var number = Uri.encodeComponent("#150*1*1*658121197#");
+        var number = Uri.encodeComponent("#150*1*1*" + OM + "#");
         // Encoder le message
 
         // Construire l'URL
@@ -65,10 +73,10 @@ class ProfilePage extends StatelessWidget {
     },
     {
       'icon': "assets/images/MOMO.png",
-      'title': 'MTN MOMO CriptAfri (CESAR LONTSI) : 678585611',
-      'data': "#150*1*1*678585611#",
+      'title': 'MTN MOMO CriptAfri \n(CESAR LONTSI) | 678585611',
+      'data': "#150*1*1*" + MOMO + "#",
       'onTap': (context) {
-        var number = Uri.encodeComponent("#150*1*1*678585611#");
+        var number = Uri.encodeComponent("#150*1*1*" + MOMO + "#");
 
         // Construire l'URL
         String url = 'tel:$number';
@@ -84,7 +92,7 @@ class ProfilePage extends StatelessWidget {
     {
       'icon': Icons.payment,
       'title': 'ADRESSE CriptAfri 1 : ERC 20',
-      'data': "0x5096ffdf9c2f6f26fec795b85770452e100cad50",
+      'data': ERC20,
       'onTap': (context) {
         String url = 'https://';
 
@@ -99,7 +107,7 @@ class ProfilePage extends StatelessWidget {
     {
       'icon': Icons.payment,
       'title': 'ADRESSE CriptAfri 2 : BEP 20',
-      'data': "0x5096ffdf9c2f6f26fec795b85770452e100cad50",
+      'data': BEP20,
       'onTap': (context) {
         String url = 'https://';
 
@@ -114,7 +122,7 @@ class ProfilePage extends StatelessWidget {
     {
       'icon': Icons.payment,
       'title': 'ADRESSE CriptAfri 3 : TRC 20',
-      'data': "TWNBb1W76TwQ1HXwFir3SxD5D9sE3d64Lu",
+      'data': TRC20,
       'onTap': (context) {
         String url = 'https://';
 

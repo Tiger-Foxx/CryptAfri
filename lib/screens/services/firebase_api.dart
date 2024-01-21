@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cryptafri/screens/profileScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -98,19 +99,17 @@ class firebaseApi {
 
   Future<void> sendVenteNotif() async {
     await firebaseApi().sendFCMMessage(await firebaseApi().createFCMMessage(
-        await firebaseApi().getToken("donfackarthur750@gmail.com"),
+        await firebaseApi().getToken(ProfilePage.email),
         "NOUVELLE VENTE CRYPTAFRI",
         "UNE PERSONNE VIENS DE VENDRE SUR CRYPTAFRI"));
-    print("le jeton : " +
-        await firebaseApi().getToken("donfackarthur750@gmail.com"));
+    print("le jeton : " + await firebaseApi().getToken(ProfilePage.email));
   }
 
   Future<void> sendAchatNotif() async {
     await firebaseApi().sendFCMMessage(await firebaseApi().createFCMMessage(
-        await firebaseApi().getToken("donfackarthur750@gmail.com"),
+        await firebaseApi().getToken(ProfilePage.email),
         "NOUVEL ACHAT SUR CRYPTAFRI",
         "UNE PERSONNE VIENS D'ACHETER SUR CRYPTAFRI"));
-    print("le jeton : " +
-        await firebaseApi().getToken("donfackarthur750@gmail.com"));
+    print("le jeton : " + await firebaseApi().getToken(ProfilePage.email));
   }
 }

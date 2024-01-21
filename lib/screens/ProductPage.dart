@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cryptafri/screens/Splash_screen_info2.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptafri/screens/models/product.model.dart';
 import 'package:lottie/lottie.dart';
@@ -17,8 +20,11 @@ class _ProductPageState extends State<ProductPage> {
   final _formKey = GlobalKey<FormState>();
   @override
   var fav = false;
+  int frais = 0;
   int number = 0;
   String? Reseau;
+  String? porteFeuille;
+  String? whatsapp;
   String? Nom;
   String? numero;
   String? adressePorteFeuille;
@@ -27,6 +33,66 @@ class _ProductPageState extends State<ProductPage> {
   void makeFav() {
     setState(() {
       fav = !fav;
+    });
+  }
+
+  String generateId() {
+    Random random = Random();
+    // Créer une variable pour stocker l'identifiant
+    String id = '';
+
+    // Créer une liste de caractères possibles
+    List<String> chars = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('');
+
+    // Générer 8 caractères aléatoires et les ajouter à l'identifiant
+    for (int i = 0; i < 8; i++) {
+      id += chars[random.nextInt(chars.length)];
+    }
+
+    // Retourner l'identifiant
+    return id;
+  }
+
+  Future<void> _addAchatToFirestore() async {
+    // Créer une référence à la collection 'ventes'
+    CollectionReference ventes =
+        FirebaseFirestore.instance.collection('achats');
+    String id = generateId();
+
+// Créer une référence à un document avec cet identifiant
+    DocumentReference vente = ventes.doc(id);
+
+    // Ajouter un document à la collection avec les données du formulaire
+    await vente.set({
+      'ID': id,
+      'prix': prix,
+      'adressePorteFeuille': adressePorteFeuille,
+      'date': Timestamp.fromDate(DateTime.now()),
+      'nom': Nom,
+      'porte_feuille': porteFeuille,
+      'quantite': number,
+      'montant_XAF': (number + frais) * prix,
+      'numero_compte': numero,
+      'whatsapp': whatsapp,
+    });
+
+    // Afficher un message de succès
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content:
+            Text('Validation en cours, Veuillez effectuer le transfert...'),
+        backgroundColor: Colors.green,
+      ),
+    );
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        isDismissible: false,
+        builder: (BuildContext context) {
+          return const Splash_screen_info2(); // votre page de chargement
+        });
+    await Future.delayed(const Duration(seconds: 55), () {
+      Navigator.of(context).pop(); // fermer la feuille
     });
   }
 
@@ -196,11 +262,47 @@ class _ProductPageState extends State<ProductPage> {
                             onChanged: (value) {
                               setState(() {
                                 number = int.parse(value!);
+                                porteFeuille = product.porteFeuille;
+                                prix = product.prix_vente;
+                                frais = product.frais;
                                 print(value);
                               });
                             },
                           ),
-
+                          SizedBox(height: 16.0),
+                          // Créer un champ de texte pour le numéro
+                          TextFormField(
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900),
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(color: Colors.white),
+                              labelText: 'Numero Compte OM|MOMO',
+                              border: OutlineInputBorder(),
+                            ),
+                            // Valider que le champ contient un numéro de téléphone valide
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !value.startsWith('+') ||
+                                  value.length < 10) {
+                                return 'Veuillez entrer un numéro de Compte valide';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                numero = value;
+                                print(value);
+                              });
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                numero = value;
+                                print(value);
+                              });
+                            },
+                          ),
                           SizedBox(height: 16.0),
                           // Créer un champ de texte pour le nom
                           TextFormField(
@@ -210,7 +312,7 @@ class _ProductPageState extends State<ProductPage> {
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               labelStyle: TextStyle(color: Colors.white),
-                              labelText: 'Votre Nom',
+                              labelText: 'Votre Nom COMPTE OM|MOMO',
                               border: OutlineInputBorder(),
                             ),
                             // Valider que le champ n'est pas vide
@@ -221,6 +323,12 @@ class _ProductPageState extends State<ProductPage> {
                               return null;
                             },
                             onSaved: (value) {
+                              setState(() {
+                                Nom = value;
+                                print(value);
+                              });
+                            },
+                            onChanged: (value) {
                               setState(() {
                                 Nom = value;
                                 print(value);
@@ -250,7 +358,13 @@ class _ProductPageState extends State<ProductPage> {
                             },
                             onSaved: (value) {
                               setState(() {
-                                numero = value;
+                                whatsapp = value;
+                                print(value);
+                              });
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                whatsapp = value;
                                 print(value);
                               });
                             },
@@ -261,7 +375,7 @@ class _ProductPageState extends State<ProductPage> {
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w900),
-                            keyboardType: TextInputType.number,
+
                             decoration: InputDecoration(
                               labelStyle: TextStyle(color: Colors.white),
                               labelText:
@@ -281,6 +395,12 @@ class _ProductPageState extends State<ProductPage> {
                                 print(value);
                               });
                             },
+                            onChanged: (value) {
+                              setState(() {
+                                adressePorteFeuille = value;
+                                print(value);
+                              });
+                            },
                           ),
 
                           SizedBox(height: 16.0),
@@ -291,7 +411,9 @@ class _ProductPageState extends State<ProductPage> {
                               Padding(
                                 padding: EdgeInsets.all(8),
                                 child: ElevatedButton.icon(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _addAchatToFirestore();
+                                  },
                                   icon: const Icon(Icons.money_off),
                                   label: Text("Valider l'achat"),
                                 ),
@@ -307,42 +429,44 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(9),
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            sendMsg(
-                                "message CryptAfri " +
-                                    " pour le produit " +
-                                    product.name.toString(),
-                                product.numero.toString());
-                            print(product.name);
-                            // Appeler la fonct
-                            //sendion addToCart avec l'identifiant du produit
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  backgroundColor:
-                                      Color.fromARGB(255, 14, 230, 21),
-                                  content: Text(
-                                    '${product.name} nous Contacterons le vendeur',
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white),
-                                  )),
-                            );
-                          },
-                          icon: const Icon(Icons.phone),
-                          label: Text("Service Client"),
+                  Center(
+                    child: Row(
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(9),
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                sendMsg(
+                                    "message CryptAfri " +
+                                        " pour le produit " +
+                                        product.name.toString(),
+                                    product.numero.toString());
+                                print(product.name);
+                                // Appeler la fonct
+                                //sendion addToCart avec l'identifiant du produit
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      backgroundColor:
+                                          Color.fromARGB(255, 14, 230, 21),
+                                      content: Text(
+                                        '${product.name} nous Contacterons le vendeur',
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white),
+                                      )),
+                                );
+                              },
+                              icon: Image.asset(
+                                'assets/images/what.png',
+                                height: 30,
+                              ),
+                              label: Text("Service Client"),
+                            ),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 80,
-                        width: 80,
-                        child: Image.asset('assets/images/what.png'),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
