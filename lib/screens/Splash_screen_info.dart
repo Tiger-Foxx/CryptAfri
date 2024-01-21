@@ -41,7 +41,7 @@ class _Splash_screen_infoState extends State<Splash_screen_info> {
                 child: Column(
                   children: [
                     Text(
-                      "POUR FINALISER VOTRE TRANSACTION,\n VOUS DEVEZ EFFECTUER LE DEPOT SUR UN DE NOS PORTE FEUILLE\n DONT LES LIENS SONT DISPONIBLES DANS L'APPLICATION",
+                      "POUR FINALISER VOTRE TRANSACTION,\n VOUS DEVEZ CLIQUER SUR VALIDER , PUIS , EFFECTUER LE DEPOT SUR NOTRE RESEAU D'EMSSION QUE VOUS AVEZ CHOISI\n (les addresses sont aussi disponibles dans la section INFO)",
                       style: TextStyle(
                         color: Colors.white54,
                         fontFamily: 'Poppins',
@@ -53,10 +53,12 @@ class _Splash_screen_infoState extends State<Splash_screen_info> {
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Text(
-                        "Copiez ce Lien Porte Feuille CriptAfri",
+                        "Copiez l'addresse du reseau que vous avez Choisi (" +
+                            AddProductScreen.portefName +
+                            ")",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 17,
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -67,9 +69,11 @@ class _Splash_screen_infoState extends State<Splash_screen_info> {
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Text(
-                        "Attention , nous ne sommes pas responsables des erreurs de transactions",
+                        "Veuillez vérifier que votre réseau d'émission est << " +
+                            AddProductScreen.portefName +
+                            " >> avant de valider ",
                         style: TextStyle(
-                            color: Colors.amber,
+                            color: const Color.fromARGB(255, 255, 7, 7),
                             fontFamily: 'Poppins',
                             fontSize: 17),
                         overflow: TextOverflow.visible,
@@ -130,7 +134,8 @@ class CopyableTextButton extends StatelessWidget {
       },
       icon: Icon(Icons.copy),
       label: Text(text,
-          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 19)),
+          style: TextStyle(
+              fontWeight: FontWeight.w900, fontSize: 19, color: Colors.amber)),
     );
   }
 }

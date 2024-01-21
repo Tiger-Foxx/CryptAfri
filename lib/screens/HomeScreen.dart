@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
             title: SizedBox(
               height: 30,
               child: Text(
-                "Attention !!! nous ne sommes pas responsables des erreurs de transactions",
+                "Attention !!!Nous ne sommes pas responsables des ordres hors de la plateforme",
                 style: TextStyle(
                     color: Colors.amber,
                     fontSize: 16,
@@ -75,40 +75,35 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: _CategoriesWidget(
-              categoryModel:
-                  categoryModel, // passer le modèle au widget BestSellingProducts
-              selectedCategory: selectedCategory,
+            child: Text(
+              "CHOISISSEZ LA CRYPTO QUE VOUS VOULEZ ACHETER\nEN FONCTION DU RESEAU D'EMISSION\n (BEP|ERC|TRC)",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w900,
+                color: Colors.amber,
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: BestSellingProducts(
-              parameter: 'price',
-              categoryModel:
-                  categoryModel, // passer le modèle au widget BestSellingProducts
-              selectedCategory:
-                  selectedCategory, // passer la catégorie au widget BestSellingProducts
+            child: ProductsByNetWork(
+              parameter: 'TRC 20',
             ),
           ),
+          Divider(),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: BestSellingProducts(
-              parameter: 'date',
-              categoryModel:
-                  categoryModel, // passer le modèle au widget BestSellingProducts
-              selectedCategory:
-                  selectedCategory, // passer la catégorie au widget BestSellingProducts
+            child: ProductsByNetWork(
+              parameter: 'ERC 20',
             ),
           ),
+          Divider(),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: BestSellingProducts(
-              parameter: 'score',
-              categoryModel:
-                  categoryModel, // passer le modèle au widget BestSellingProducts
-              selectedCategory:
-                  selectedCategory, // passer la catégorie au widget BestSellingProducts
+            child: ProductsByNetWork(
+              parameter: 'BEP 20',
+              // passer la catégorie au widget BestSellingProducts
             ),
           ),
         ],
@@ -280,132 +275,26 @@ class __HeroWidgetState extends State<_HeroWidget> {
   }
 }
 
-class _CategoriesWidget extends StatefulWidget {
-  final CategoryModel categoryModel; // déclarer le modèle comme un champ final
-  final String selectedCategory; // déclarer la catégorie comme un champ final
-  const _CategoriesWidget({
-    Key? key,
-    required this.categoryModel,
-    required this.selectedCategory,
-  }) : super(key: key);
-
-  @override
-  State<_CategoriesWidget> createState() => __CategoriesWidgetState();
-}
-
-class __CategoriesWidgetState extends State<_CategoriesWidget> {
-// Une liste de catégories fictives
-  List<Map<String, dynamic>> categories = [
-    {'id': 0, 'name': 'Tous', 'icon': Icons.shop},
-    {'id': 1, 'name': 'Livres', 'icon': Icons.book},
-    {'id': 2, 'name': 'Musique', 'icon': Icons.music_note},
-    {'id': 3, 'name': 'Jeux', 'icon': Icons.videogame_asset},
-    {'id': 4, 'name': 'Vetements', 'icon': Icons.shopping_basket},
-    {'id': 5, 'name': 'Electronique', 'icon': Icons.laptop},
-    {'id': 7, 'name': 'Logiciels', 'icon': Icons.android},
-    {'id': 6, 'name': 'Autres', 'icon': Icons.add_shopping_cart_sharp},
-  ];
-  // Accéder au modèle et à la catégorie actuelle
-
-  @override
-  Widget build(BuildContext context) {
-    var categoryModel = Provider.of<CategoryModel>(context);
-    var selectedCategory = categoryModel.category;
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Categories",
-            style: TextStyle(
-                fontFamily: 'Poppins', fontSize: 18, color: Colors.amber),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          // Utiliser un simple ListView.builder sans FutureBuilder
-          SizedBox(
-            height: 60,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        selectedCategory = categories[index]['name'];
-                        // Modifier la catégorie en utilisant le modèle
-                        categoryModel.setCategory(categories[index]['name']);
-                      });
-                    },
-                    // Ajouter du style au widget
-                    style: ElevatedButton.styleFrom(
-                      // Définir la couleur du fond du bouton
-                      backgroundColor: selectedCategory ==
-                              categories[index]['name']
-                          ? Colors
-                              .amber // si la catégorie du bouton est égale à la catégorie sélectionnée, mettre la couleur en jaune
-                          : Color.fromARGB(
-                              94, 0, 0, 0), // sinon, garder la couleur initiale
-
-                      // Définir la taille du bouton
-
-                      // Définir la bordure du bouton
-                      side: BorderSide(color: Colors.amber),
-                      // Définir le rayon du bord du bouton
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    // Utiliser une icône et un texte pour afficher la catégorie
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(categories[index]['icon'], color: Colors.white),
-                        Text(categories[index]['name'],
-                            style: TextStyle(color: Colors.white)),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class BestSellingProducts extends StatefulWidget {
-  final CategoryModel categoryModel; // déclarer le modèle comme un champ final
+class ProductsByNetWork extends StatefulWidget {
   final parameter;
-  final String selectedCategory; // déclarer la catégorie comme un champ final
-  const BestSellingProducts({
+  const ProductsByNetWork({
     Key? key,
-    required this.categoryModel,
     required this.parameter,
-    required this.selectedCategory,
   }) : super(key: key);
 
   @override
-  State<BestSellingProducts> createState() =>
-      _BestSellingProductsState(parameter);
+  State<ProductsByNetWork> createState() => _ProductsByNetWorkState(parameter);
 }
 
-class _BestSellingProductsState extends State<BestSellingProducts> {
+class _ProductsByNetWorkState extends State<ProductsByNetWork> {
 // Une liste de produits fictifs
   var parameter;
   List<Map<String, dynamic>> produits = [];
-  _BestSellingProductsState(var param) {
+  _ProductsByNetWorkState(var param) {
     parameter = param;
   }
   @override
   Widget build(BuildContext context) {
-    var categoryModel = Provider.of<CategoryModel>(context);
-    var selectedCategory = categoryModel.category;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -416,20 +305,22 @@ class _BestSellingProductsState extends State<BestSellingProducts> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                parameter == 'price'
-                    ? "Meilleurs prix"
-                    : (parameter == 'date'
-                        ? "Plus Récents"
-                        : (parameter == 'score' ? "Mieux Notés" : "Autres")),
+                parameter == 'ERC 20'
+                    ? "AVEC COMPTE ERC 20 "
+                    : (parameter == 'BEP 20'
+                        ? "AVEC COMPTE BEP 20"
+                        : (parameter == 'TRC 20'
+                            ? "AVEC COMPTE TRC 20"
+                            : "Autres")),
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 19,
+                  fontSize: 18,
                   color: Colors.amber,
                 ),
               ),
               TextButton(
                 child: const Text(
-                  "View All",
+                  "CHOISIR",
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
@@ -441,74 +332,184 @@ class _BestSellingProductsState extends State<BestSellingProducts> {
             ],
           ),
         ),
-        Container(
-          constraints: const BoxConstraints(maxHeight: 350, minHeight: 300),
-          child: StreamBuilder<QuerySnapshot>(
-              stream: selectedCategory == 'Tous'
-                  ? FirebaseFirestore.instance
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Container(
+              width: double.infinity,
+              height: 500,
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
                       .collection('produits')
-                      .orderBy(parameter, descending: parameter != 'price')
-                      .snapshots()
-                  : FirebaseFirestore.instance
-                      .collection('produits')
-                      .where('category',
+                      .where('porteFeuille',
                           isEqualTo:
-                              selectedCategory) // si oui, utiliser un filtre sur la requête firebase pour récupérer les produits de la catégorie correspondante
-                      .orderBy(parameter, descending: parameter != 'price')
+                              parameter) // si oui, utiliser un filtre sur la requête firebase pour récupérer les produits de la catégorie correspondante
                       .snapshots(),
-              builder: (context, snapshot) {
-                try {
-                  if (snapshot.hasData && snapshot.data!.docs[0] != null) {
-                    return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        return ProductCard(
-                          produit: snapshot.data!.docs[index],
+                  builder: (context, snapshot) {
+                    try {
+                      var a = snapshot.data!;
+                      print(a.docs[0]['name']);
+                      if (snapshot.hasData && snapshot.data!.docs[0] != null) {
+                        return ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            return Center(
+                              child: CardExample(
+                                produit: snapshot.data!.docs[index],
+                              ),
+                            );
+                          },
                         );
-                      },
-                    );
-                  } else if (snapshot.hasError) {
-                    return SizedBox(
-                      height: 150,
-                      child: Column(
+                      } else if (snapshot.hasError) {
+                        return SizedBox(
+                          height: 100,
+                          child: Column(
+                            children: [
+                              Lottie.asset('assets/lotties/bitcoin2.json'),
+                              Text('Une erreur est survenue'),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Column(
+                          children: [
+                            const Text('Rien pour cette Catégorie'),
+                            Lottie.asset('assets/lotties/bitcoin2.json'),
+                          ],
+                        );
+                      }
+                    } catch (e) {
+                      return Column(
                         children: [
-                          Lottie.asset('assets/lotties/astronot.json'),
-                          Text('Une erreur est survenue'),
+                          const Text(
+                              'Rien pour le moment dans cette Catégorie...',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'Poppins', fontSize: 18)),
+                          SizedBox(
+                            height: 100,
+                            child: Lottie.asset('assets/lotties/bitcoin2.json',
+                                fit: BoxFit.contain),
+                          ),
                         ],
-                      ),
-                    );
-                  } else {
-                    return Column(
-                      children: [
-                        const Text('Rien pour cette Catégorie'),
-                        Lottie.asset('assets/lotties/astronot.json'),
-                      ],
-                    );
-                  }
-                } catch (e) {
-                  return Column(
-                    children: [
-                      const Text('Rien pour le moment dans cette Catégorie...',
-                          textAlign: TextAlign.center,
-                          style:
-                              TextStyle(fontFamily: 'Poppins', fontSize: 18)),
-                      SizedBox(
-                        height: 280,
-                        child: Lottie.asset('assets/lotties/astronot.json',
-                            fit: BoxFit.contain),
-                      ),
-                    ],
-                  );
-                }
-              }),
+                      );
+                    }
+                  }),
+            ),
+          ),
         ),
       ],
     );
   }
 }
 
-// changer StatelessWidget en StatefulWidget
+class CategoryModel extends ChangeNotifier {
+  String _category = 'Tous'; // la catégorie initiale
+
+  // Un getter pour accéder à la catégorie
+  String get category => _category;
+
+  // Une méthode pour modifier la catégorie et notifier les écouteurs
+  void setCategory(String newCategory) {
+    _category = newCategory;
+    notifyListeners();
+  }
+}
+
+class CardExample extends StatelessWidget {
+  var produit;
+
+  CardExample({super.key, required this.produit});
+
+  @override
+  Widget build(BuildContext context) {
+    ProductModel productModel = ProductModel(
+      Category: produit['category'],
+      numero: produit['numero'],
+      ID: produit['ID'],
+      date: produit['date'],
+      image: produit['image'],
+      prix_achat: produit['prix_achat'],
+      name: produit['name'],
+      quantity: produit['quantity'],
+      prix_vente: produit['prix_vente'],
+      porteFeuille: produit['porteFeuille'],
+      min_vente: produit['min_vente'],
+    );
+    String chaineImage = produit['image'];
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              ProductPage.routeName,
+              arguments: productModel,
+            );
+          },
+          child: Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: chaineImage.contains("http")
+                      ? Image.network(
+                          chaineImage,
+                          height: 70,
+                        )
+                      : Image.asset(
+                          chaineImage,
+                        ),
+                  title: Text(
+                    produit['name'],
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+                  ),
+                  subtitle: Text("Prix de vente : " +
+                      produit['prix_vente'].toString() +
+                      " | " +
+                      produit['porteFeuille'].toUpperCase()),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                      child: const Text(
+                        'ACHETER CETTE CRYPTO',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 200, 151, 2),
+                            fontWeight: FontWeight.w900),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          ProductPage.routeName,
+                          arguments: productModel,
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------//
+
+/*************************** CLASSES COMMENTEES ********************************** */
+
+/*
+
+
 class ProductCard extends StatefulWidget {
   var produit;
 
@@ -641,15 +642,118 @@ class _ProductCardState extends State<ProductCard> {
   }
 }
 
-class CategoryModel extends ChangeNotifier {
-  String _category = 'Tous'; // la catégorie initiale
 
-  // Un getter pour accéder à la catégorie
-  String get category => _category;
 
-  // Une méthode pour modifier la catégorie et notifier les écouteurs
-  void setCategory(String newCategory) {
-    _category = newCategory;
-    notifyListeners();
+ */
+
+
+/************************************************************** */
+
+
+/******************************************************************************************************************* */
+/* 
+
+
+class _CategoriesWidget extends StatefulWidget {
+  final CategoryModel categoryModel; // déclarer le modèle comme un champ final
+  final String selectedCategory; // déclarer la catégorie comme un champ final
+  const _CategoriesWidget({
+    Key? key,
+    required this.categoryModel,
+    required this.selectedCategory,
+  }) : super(key: key);
+
+  @override
+  State<_CategoriesWidget> createState() => __CategoriesWidgetState();
+}
+
+class __CategoriesWidgetState extends State<_CategoriesWidget> {
+// Une liste de catégories fictives
+  List<Map<String, dynamic>> categories = [
+    {'id': 0, 'name': 'Tous', 'icon': Icons.shop},
+    {'id': 1, 'name': 'Livres', 'icon': Icons.book},
+    {'id': 2, 'name': 'Musique', 'icon': Icons.music_note},
+    {'id': 3, 'name': 'Jeux', 'icon': Icons.videogame_asset},
+    {'id': 4, 'name': 'Vetements', 'icon': Icons.shopping_basket},
+    {'id': 5, 'name': 'Electronique', 'icon': Icons.laptop},
+    {'id': 7, 'name': 'Logiciels', 'icon': Icons.android},
+    {'id': 6, 'name': 'Autres', 'icon': Icons.add_shopping_cart_sharp},
+  ];
+  // Accéder au modèle et à la catégorie actuelle
+
+  @override
+  Widget build(BuildContext context) {
+    var categoryModel = Provider.of<CategoryModel>(context);
+    var selectedCategory = categoryModel.category;
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Categories",
+            style: TextStyle(
+                fontFamily: 'Poppins', fontSize: 18, color: Colors.amber),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          // Utiliser un simple ListView.builder sans FutureBuilder
+          SizedBox(
+            height: 60,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: categories.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        selectedCategory = categories[index]['name'];
+                        // Modifier la catégorie en utilisant le modèle
+                        categoryModel.setCategory(categories[index]['name']);
+                      });
+                    },
+                    // Ajouter du style au widget
+                    style: ElevatedButton.styleFrom(
+                      // Définir la couleur du fond du bouton
+                      backgroundColor: selectedCategory ==
+                              categories[index]['name']
+                          ? Colors
+                              .amber // si la catégorie du bouton est égale à la catégorie sélectionnée, mettre la couleur en jaune
+                          : Color.fromARGB(
+                              94, 0, 0, 0), // sinon, garder la couleur initiale
+
+                      // Définir la taille du bouton
+
+                      // Définir la bordure du bouton
+                      side: BorderSide(color: Colors.amber),
+                      // Définir le rayon du bord du bouton
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    // Utiliser une icône et un texte pour afficher la catégorie
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(categories[index]['icon'], color: Colors.white),
+                        Text(categories[index]['name'],
+                            style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
+
+
+*/
+
+/******************************************************************************************************************** */

@@ -8,6 +8,8 @@ class ProductModel {
   var Category;
   var quantity;
   var numero;
+  var min_vente;
+  var porteFeuille;
   ProductModel({
     required this.Category,
     required this.ID,
@@ -17,6 +19,8 @@ class ProductModel {
     required this.name,
     required this.quantity,
     required this.numero,
-    this.prix_vente,
+    required this.prix_vente,
+    required this.min_vente,
+    required this.porteFeuille,
   });
 }

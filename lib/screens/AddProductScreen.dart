@@ -17,6 +17,7 @@ import 'package:lottie/lottie.dart';
 class AddProductScreen extends StatefulWidget {
   static const routeName = 'add';
   static String portef = '';
+  static String portefName = '';
   // Créer le constructeur de la classe avec une clé optionnelle
   const AddProductScreen({Key? key}) : super(key: key);
 
@@ -70,13 +71,13 @@ class _AddProductScreenState extends State<AddProductScreen>
         .map((doc) => {
               'id': counter++,
               'name': doc['name'],
-              'max_vente': doc['max_vente'],
+              'min_vente': doc['min_vente'],
               'icon': Icons.money,
             })
         .toList();
     Maxs = querySnapshot.docs
         .map((doc) => {
-              doc['name'].toString(): int.parse(doc['max_vente'].toString()),
+              doc['name'].toString(): int.parse(doc['min_vente'].toString()),
               'cle': doc['name'].toString(),
             })
         .toList();
@@ -196,9 +197,21 @@ class _AddProductScreenState extends State<AddProductScreen>
   }
 
   List<Map<String, dynamic>> porteFeuilles = [
-    {'id': 0, 'name': 'ERC 20', 'lien': 'rec kjkljlkjkljkljkljlkj'},
-    {'id': 1, 'name': 'TRC 20', 'lien': 'trc sfdfsfdsfsdfdsfsfdfs'},
-    {'id': 2, 'name': 'BEP 20', 'lien': 'bep jshdjkfhsdkjfhsdjfhsfj'},
+    {
+      'id': 0,
+      'name': 'ERC 20',
+      'lien': '0x5096ffdf9c2f6f26fec795b85770452e100cad50'
+    },
+    {
+      'id': 1,
+      'name': 'TRC 20',
+      'lien': 'TWNBb1W76TwQ1HXwFir3SxD5D9sE3d64Lu',
+    },
+    {
+      'id': 2,
+      'name': 'BEP 20',
+      'lien': '0x5096ffdf9c2f6f26fec795b85770452e100cad50'
+    },
   ];
 
   String getLinkPorteFeuille(String param) {
@@ -267,7 +280,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                       children: [
                                         Text(category['name'] +
                                             " Minimum achat: " +
-                                            category['max_vente'].toString() +
+                                            category['min_vente'].toString() +
                                             " XAF"),
                                       ],
                                     ),
@@ -413,6 +426,8 @@ class _AddProductScreenState extends State<AddProductScreen>
                               _portefeuille = value.toString();
                               AddProductScreen.portef =
                                   getLinkPorteFeuille(value.toString());
+                              AddProductScreen.portefName =
+                                  getLinkPorteFeuille(value.toString());
                             });
                           },
                           validator: (value) {
@@ -428,6 +443,8 @@ class _AddProductScreenState extends State<AddProductScreen>
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
                               AddProductScreen.portef =
+                                  getLinkPorteFeuille(_portefeuille.toString());
+                              AddProductScreen.portefName =
                                   getLinkPorteFeuille(_portefeuille.toString());
                               await _addVenteToFirestore(_portefeuille);
                             }

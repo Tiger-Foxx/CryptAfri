@@ -25,11 +25,11 @@ class ProfilePage extends StatelessWidget {
     {
       'icon': "assets/images/what.jpeg",
       'title': 'Nous Contacter',
-      'data': "+237658866639",
+      'data': "+237678585611",
       'onTap': (context) {
         var message =
             'MESSAGE CRYPTAFRI ! \nASSISTANCE CLIENT\n\n\n\n Bonjour je suis : ';
-        var number = '+237658866639';
+        var number = '+237678585611';
         // Encoder le message
         String encodedMessage = Uri.encodeComponent(message);
 
@@ -46,10 +46,10 @@ class ProfilePage extends StatelessWidget {
     },
     {
       'icon': "assets/images/OM.png",
-      'title': 'Orange Money CriptAfri : 658866639',
-      'data': "#150*1*1*658866639#",
+      'title': 'Orange Money CriptAfri(GAMGNE CELINE) : 658121197',
+      'data': "#150*1*1*658121197#",
       'onTap': (context) {
-        var number = Uri.encodeComponent("#150*1*1*658866639#");
+        var number = Uri.encodeComponent("#150*1*1*658121197#");
         // Encoder le message
 
         // Construire l'URL
@@ -59,16 +59,16 @@ class ProfilePage extends StatelessWidget {
         try {
           launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
         } catch (e) {
-          print('Could not launch WhatsApp: $e');
+          print('Could not launch URL: $e');
         }
       }
     },
     {
       'icon': "assets/images/MOMO.png",
-      'title': 'MTN MOMO CriptAfri : 658866639',
-      'data': "#150*1*1*658866639#",
+      'title': 'MTN MOMO CriptAfri (CESAR LONTSI) : 678585611',
+      'data': "#150*1*1*678585611#",
       'onTap': (context) {
-        var number = Uri.encodeComponent("#150*1*1*658866639#");
+        var number = Uri.encodeComponent("#150*1*1*678585611#");
 
         // Construire l'URL
         String url = 'tel:$number';
@@ -77,73 +77,52 @@ class ProfilePage extends StatelessWidget {
         try {
           launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
         } catch (e) {
-          print('Could not launch WhatsApp: $e');
+          print('Could not launch URL: $e');
         }
       }
     },
     {
       'icon': Icons.payment,
-      'title': 'PorteFeuille1 CriptAfri : 658866639',
-      'data': "658866639",
+      'title': 'ADRESSE CriptAfri 1 : ERC 20',
+      'data': "0x5096ffdf9c2f6f26fec795b85770452e100cad50",
       'onTap': (context) {
-        var message =
-            'MESSAGE CRYPTAFRI ! \nASSISTANCE CLIENT\n\n\n\n Bonjour je suis : ';
-        var number = '+237658866639';
-        // Encoder le message
-        String encodedMessage = Uri.encodeComponent(message);
-
-        // Construire l'URL
-        String url = 'https://wa.me/$number?text=$encodedMessage';
+        String url = 'https://';
 
         // Lancer l'URL
         try {
           launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
         } catch (e) {
-          print('Could not launch WhatsApp: $e');
+          print('Could not launch url: $e');
         }
       }
     },
     {
       'icon': Icons.payment,
-      'title': 'PorteFeuille2 CriptAfri : 658866639',
-      'data': "658866639",
+      'title': 'ADRESSE CriptAfri 2 : BEP 20',
+      'data': "0x5096ffdf9c2f6f26fec795b85770452e100cad50",
       'onTap': (context) {
-        var message =
-            'MESSAGE CRYPTAFRI ! \nASSISTANCE CLIENT\n\n\n\n Bonjour je suis : ';
-        var number = '+237658866639';
-        // Encoder le message
-        String encodedMessage = Uri.encodeComponent(message);
-
-        // Construire l'URL
-        String url = 'https://wa.me/$number?text=$encodedMessage';
+        String url = 'https://';
 
         // Lancer l'URL
         try {
           launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
         } catch (e) {
-          print('Could not launch WhatsApp: $e');
+          print('Could not launch url: $e');
         }
       }
     },
     {
       'icon': Icons.payment,
-      'title': 'PorteFeuille3 CriptAfri : 658866639',
-      'data': "658866639",
+      'title': 'ADRESSE CriptAfri 3 : TRC 20',
+      'data': "TWNBb1W76TwQ1HXwFir3SxD5D9sE3d64Lu",
       'onTap': (context) {
-        var message =
-            'MESSAGE CRYPTAFRI ! \nASSISTANCE CLIENT\n\n\n\n Bonjour je suis : ';
-        var number = '+237658866639';
-        // Encoder le message
-        String encodedMessage = Uri.encodeComponent(message);
-
-        // Construire l'URL
-        String url = 'https://wa.me/$number?text=$encodedMessage';
+        String url = 'https://';
 
         // Lancer l'URL
         try {
           launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
         } catch (e) {
-          print('Could not launch WhatsApp: $e');
+          print('Could not launch url: $e');
         }
       }
     },
