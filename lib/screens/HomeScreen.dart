@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 "Attention !!!Nous ne sommes pas responsables des ordres hors de la plateforme",
                 style: TextStyle(
                     color: Colors.amber,
-                    fontSize: 16,
+                    fontSize: 15.5,
                     fontWeight: FontWeight.w900),
                 overflow: TextOverflow.visible,
                 softWrap: true,

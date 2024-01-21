@@ -17,7 +17,7 @@ import 'package:lottie/lottie.dart';
 class AddProductScreen extends StatefulWidget {
   static const routeName = 'add';
   static String portef = '0x5096ffdf9c2f6f26fec795b85770452e100cad50';
-  static String portefName = 'ERC 20';
+  static String portefName = 'TRC 20';
   // Créer le constructeur de la classe avec une clé optionnelle
   const AddProductScreen({Key? key}) : super(key: key);
 
@@ -53,6 +53,29 @@ class _AddProductScreenState extends State<AddProductScreen>
   }
 
   Random random = Random();
+// Cette fonction prend une liste de maps et un critère de clé
+// Elle retourne une liste de maps qui ne contient que des éléments uniques selon la valeur de la clé
+  List<Map<String, dynamic>> filterUnique(
+      List<Map<String, dynamic>> list, String key) {
+    // On crée un set vide pour stocker les valeurs uniques
+    Set<dynamic> uniqueValues = {};
+    // On crée une liste vide pour stocker les maps filtrés
+    List<Map<String, dynamic>> filteredList = [];
+    // On parcourt la liste de maps
+    for (Map<String, dynamic> map in list) {
+      // On récupère la valeur de la clé pour le map courant
+      dynamic value = map[key];
+      // On vérifie si la valeur est déjà dans le set
+      if (!uniqueValues.contains(value)) {
+        // Si non, on ajoute la valeur au set
+        uniqueValues.add(value);
+        // On ajoute le map à la liste filtrée
+        filteredList.add(map);
+      }
+    }
+    // On retourne la liste filtrée
+    return filteredList;
+  }
 
 // Créer une référence à la collection Firestore
   final CollectionReference categoriesRef =
@@ -69,24 +92,27 @@ class _AddProductScreenState extends State<AddProductScreen>
     // Convertir les documents en une liste de Map<String, dynamic>
     List<Map<String, dynamic>> categories = querySnapshot.docs
         .map((doc) => {
-              'id': counter++,
+              'id': doc['ID'],
               'name': doc['name'],
               'min_vente': doc['min_vente'],
               'icon': Icons.money,
             })
         .toList();
+    categories = filterUnique(categories, 'name');
     Maxs = querySnapshot.docs
         .map((doc) => {
               doc['name'].toString(): int.parse(doc['min_vente'].toString()),
               'cle': doc['name'].toString(),
             })
         .toList();
+    Maxs = filterUnique(Maxs, 'name');
     prixAchats = querySnapshot.docs
         .map((doc) => {
               doc['name'].toString(): int.parse(doc['prix_achat'].toString()),
               'cle': doc['name'].toString(),
             })
         .toList();
+    prixAchats = filterUnique(prixAchats, 'name');
     // Retourner la liste de Map<String, dynamic>
     return categories;
   }
@@ -139,8 +165,8 @@ class _AddProductScreenState extends State<AddProductScreen>
 
   // Créer des variables pour stocker les valeurs des champs du formulaire
   int prix_choix = 0;
-  String? _category = "bitcoin";
-  String? _portefeuille = "ERC 20";
+  String? _category = "TRX";
+  String? _portefeuille = "TRC 20";
   String? _description;
   String? _emailVendeur;
   String? _image;
@@ -150,7 +176,7 @@ class _AddProductScreenState extends State<AddProductScreen>
   String? _numero;
   String? _whatsapp;
 
-  // Créer une variable booléenne pour indiquer si le vendeur est l'utilisateur courant ou non
+  // Créer une variarle booléenne pour indiquer si le vendeur est l'utilisateur courant ou non
   bool _isCurrentUser = false;
 
   // Créer une méthode pour ajouter le produit à la collection Firestore
@@ -279,10 +305,7 @@ class _AddProductScreenState extends State<AddProductScreen>
                                     value: category['name'],
                                     child: Row(
                                       children: [
-                                        Text(category['name'] +
-                                            " Minimum achat: " +
-                                            category['min_vente'].toString() +
-                                            " XAF"),
+                                        Text(category['name']),
                                       ],
                                     ),
                                   ))
