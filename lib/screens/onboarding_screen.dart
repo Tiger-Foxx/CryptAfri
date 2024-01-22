@@ -15,21 +15,24 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   late PageController _PageController;
   int _curentPage = 0;
-  final int _totalPages = 3;
+  final int _totalPages = 4;
   final Titre = [
     "LA CRYPTO A PORTEE DE CLICK ",
     "VOUS NEGOCIEZ !",
-    "VOUS GAGNEZ !"
+    "VOUS GAGNEZ !",
+    "RECHARCHEZ AUSSI\nFACILEMENT!",
   ];
   final SousTitre = [
     "Découvrez l'application qui va tout changer !",
     "Sur Cryptafri Votre Liberté est TOTALE  !",
-    "C'est avant tout l'avantage que notre marché confère !"
+    "C'est avant tout l'avantage que notre marché confère !",
+    "Pour les Parieurs Rechargez Aussi facilement vos Comptes de paris\n Via l'Application "
   ];
   final images = [
     "assets/images/0.jpg",
     "assets/lotties/negocier.json",
     "assets/lotties/economiser.json",
+    "assets/lotties/football.json",
   ];
   @override
   void initState() {
