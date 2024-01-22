@@ -86,7 +86,30 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ProductsByNetWork(
+              parameter: 'BEP 20',
+              // passer la catégorie au widget BestSellingProducts
+            ),
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ProductsByNetWork(
+              parameter: 'BEP 2',
+              // passer la catégorie au widget BestSellingProducts
+            ),
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ProductsByNetWork(
               parameter: 'ERC 20',
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ProductsByNetWork(
+              parameter: 'OPBNB',
+              // passer la catégorie au widget BestSellingProducts
             ),
           ),
           Divider(),
@@ -94,14 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(8.0),
             child: ProductsByNetWork(
               parameter: 'TRC 20',
-            ),
-          ),
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ProductsByNetWork(
-              parameter: 'BEP 20',
-              // passer la catégorie au widget BestSellingProducts
             ),
           ),
         ],
@@ -309,7 +324,11 @@ class _ProductsByNetWorkState extends State<ProductsByNetWork> {
                         ? "PAR RESEAU BEP 20"
                         : (parameter == 'TRC 20'
                             ? "PAR RESEAU TRC 20"
-                            : "Autres")),
+                            : (parameter == "BEP 2"
+                                ? "PAR RESEAU BEP 2"
+                                : (parameter == 'OPBNB'
+                                    ? "PAR RESEAU BEP OPBNB"
+                                    : "Autres")))),
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 18,
@@ -325,7 +344,9 @@ class _ProductsByNetWorkState extends State<ProductsByNetWork> {
                     color: Color.fromARGB(166, 32, 32, 32),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  firebaseApi().sendAchatNotif(); //FONCTION QUE J'AI AJOUTE
+                },
               ),
             ],
           ),
@@ -335,7 +356,7 @@ class _ProductsByNetWorkState extends State<ProductsByNetWork> {
             padding: const EdgeInsets.all(6.0),
             child: Container(
               width: double.infinity,
-              height: 500,
+              height: 300,
               child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('produits')

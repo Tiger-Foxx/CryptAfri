@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptafri/screens/Splash_screen_info2.dart';
+import 'package:cryptafri/screens/services/firebase_api.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptafri/screens/models/product.model.dart';
 import 'package:lottie/lottie.dart';
@@ -309,7 +310,7 @@ class _ProductPageState extends State<ProductPage> {
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w900),
-                            keyboardType: TextInputType.number,
+
                             decoration: InputDecoration(
                               labelStyle: TextStyle(color: Colors.white),
                               labelText: 'Votre Nom COMPTE OM|MOMO',
@@ -411,8 +412,11 @@ class _ProductPageState extends State<ProductPage> {
                               Padding(
                                 padding: EdgeInsets.all(8),
                                 child: ElevatedButton.icon(
-                                  onPressed: () {
-                                    _addAchatToFirestore();
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      await firebaseApi().sendAchatNotif();
+                                      _addAchatToFirestore();
+                                    }
                                   },
                                   icon: const Icon(Icons.money_off),
                                   label: Text("Valider l'achat"),

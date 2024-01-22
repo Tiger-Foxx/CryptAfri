@@ -43,7 +43,7 @@ class _Splash_screen_info2State extends State<Splash_screen_info2> {
                 child: Column(
                   children: [
                     Text(
-                      "POUR FINALISER VOTRE TRANSACTION,\n VOUS DEVEZ CLIQUER SUR <<VALIDER>> , PUIS , EFFECTUER UN DEPOT SUR NOTRE COMPTE OM OU MTN MONEY \n (les NUMEROS sont aussi disponibles dans la section INFO)",
+                      "POUR FINALISER VOTRE TRANSACTION,\n VOUS DEVEZ  EFFECTUER UN DEPOT SUR NOTRE COMPTE OM OU MTN MONEY \n (les NUMEROS sont aussi disponibles dans la section INFO)",
                       style: TextStyle(
                         color: Colors.white54,
                         fontFamily: 'Poppins',
@@ -63,6 +63,17 @@ class _Splash_screen_info2State extends State<Splash_screen_info2> {
                         overflow: TextOverflow.visible,
                         softWrap: true,
                         textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        "Attention veillez nous contacter pour négocier des crypto-monnaies non listées sur la plateforme.\nCryptAfri ne vous contactera jamais en premier",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.red),
                       ),
                     ),
                   ],

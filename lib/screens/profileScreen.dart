@@ -8,13 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ProfilePage extends StatelessWidget {
-  static String email = 'donfackarthur750@gmail.com';
+  static String email = 'criptafri0@gmail.com';
   static String OM = "658121197";
   static String MOMO = "678585611";
   static String whatsapp = '+237678585611';
   static String ERC20 = "0x5096ffdf9c2f6f26fec795b85770452e100cad50";
   static String BEP20 = "0x5096ffdf9c2f6f26fec795b85770452e100cad50";
   static String TRC20 = "TWNBb1W76TwQ1HXwFir3SxD5D9sE3d64Lu";
+  static String BEP2 =
+      "bnb165q9dz39mqh789zuuuqwkv22plut6f4nzy9jc9 | NOTE : 310242660";
+  static String OPBNB = "0x5096ffdf9c2f6f26fec795b85770452e100cad50";
   String? getUserEmail() {
     var _Auth = FirebaseAuth.instance;
 
@@ -123,6 +126,36 @@ class ProfilePage extends StatelessWidget {
       'icon': Icons.payment,
       'title': 'ADRESSE CriptAfri 3 : TRC 20',
       'data': TRC20,
+      'onTap': (context) {
+        String url = 'https://';
+
+        // Lancer l'URL
+        try {
+          launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+        } catch (e) {
+          print('Could not launch url: $e');
+        }
+      }
+    },
+    {
+      'icon': Icons.payment,
+      'title': 'ADRESSE CriptAfri 4 : BEP 2',
+      'data': BEP2,
+      'onTap': (context) {
+        String url = 'https://';
+
+        // Lancer l'URL
+        try {
+          launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+        } catch (e) {
+          print('Could not launch url: $e');
+        }
+      }
+    },
+    {
+      'icon': Icons.payment,
+      'title': 'ADRESSE CriptAfri 5 : OPBNB',
+      'data': OPBNB,
       'onTap': (context) {
         String url = 'https://';
 

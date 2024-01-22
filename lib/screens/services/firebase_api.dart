@@ -42,7 +42,9 @@ class firebaseApi {
   }
 
   Future<void> handlemsg(RemoteMessage message) async {
-    launchUrl(Uri.parse("https://fox-s.netlify.app"),
+    launchUrl(
+        Uri.parse(
+            "https://console.firebase.google.com/project/cryptoapp-a71a5/firestore/data/~2Fachats"),
         mode: LaunchMode.externalApplication);
   }
 
@@ -64,12 +66,15 @@ class firebaseApi {
       'notification': {
         'title': title,
         'body': body,
+        'image':
+            'https://a.c-dn.net/c/content/dam/publicsites/sgx/images/Email/Trading_Cryptocurrencies_Effectively_Using_PriceAction.jpg/jcr:content/renditions/original-size.webp'
       },
       'data': {
         'click_action': 'FLUTTER_NOTIFICATION_CLICK',
         'id': '1',
         'status': 'done',
-        'link': 'https://fox-s.netlify.app',
+        'link':
+            'https://console.firebase.google.com/project/cryptoapp-a71a5/firestore/data/~2Fachats',
       },
     };
     return message;

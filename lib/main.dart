@@ -9,6 +9,7 @@ import 'package:cryptafri/screens/ForgotScreen.dart';
 import 'package:cryptafri/screens/SellsScreen.dart';
 import 'package:cryptafri/screens/HomeScreen.dart';
 import 'package:cryptafri/screens/onboarding_screen.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'screens/ProductPage.dart';
 import 'screens/Splash_screen.dart';
@@ -32,7 +33,7 @@ void main() async {
     launchUrl(Uri.parse(message.data['link']),
         mode: LaunchMode.externalApplication);
   });
-
+  await initNotifications(); //FONCTION QUE J'AI AJOUTE
   // Initialiser le plugin avec les paramètres par défaut pour Android et iOS
   try {
     await AwesomeNotifications().initialize(
@@ -41,15 +42,25 @@ void main() async {
           NotificationChannel(
               channelKey: 'basic_channel',
               channelName: 'Basic notifications',
+              playSound: true,
+              onlyAlertOnce: true,
               channelDescription: 'Notification channel for basic tests',
+              importance: NotificationImportance.High,
+              defaultPrivacy: NotificationPrivacy.Private,
               defaultColor: Color(0xFF9D50DD),
               ledColor: Colors.white)
         ]);
   } on Exception catch (e) {
+    print("\n\n CA NA PAS MARCHE \n");
     // TODO
   }
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     showNotification();
+    sendLocalNotification(
+        1,
+        "NOUVELLE ACTION SUR CRYPTAFRI",
+        "UN CLIENT A EFFECTUE UNE NOUVELLE ACTION SUR CRYPTAFRI",
+        ""); //FONCTION QUE J'AI AJOUTE
   });
   runApp(const MainApp());
 }
@@ -96,4 +107,39 @@ class MainApp extends StatelessWidget {
       ),
     );
   }
+}
+
+// Créer une instance du plugin de notification locale
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+// Initialiser le plugin avec des paramètres spécifiques pour Android
+Future<void> initNotifications() async {
+  // Créer un objet de paramètres d'initialisation pour Android
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('app_icon');
+
+  // Initialiser le plugin avec les paramètres d'initialisation pour Android
+  await flutterLocalNotificationsPlugin.initialize(
+    InitializationSettings(android: initializationSettingsAndroid),
+  );
+}
+
+// Créer une fonction qui peut envoyer une notification locale à l'utilisateur
+Future<void> sendLocalNotification(
+    int id, String title, String body, String? payload) async {
+  // Créer un objet de détails de notification pour Android
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(
+    'your_channel_id',
+    'your_channel_name',
+    importance: Importance.max,
+    priority: Priority.high,
+    showWhen: false,
+  );
+
+  // Envoyer la notification locale en utilisant le plugin
+  await flutterLocalNotificationsPlugin.show(id, title, body,
+      NotificationDetails(android: androidPlatformChannelSpecifics),
+      payload: payload);
 }
