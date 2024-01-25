@@ -94,6 +94,7 @@ class _ProductPageState extends State<ProductPage> {
         });
     await Future.delayed(const Duration(seconds: 55), () {
       Navigator.of(context).pop(); // fermer la feuille
+      firebaseApi().sendAchatNotif();
     });
   }
 
@@ -284,9 +285,7 @@ class _ProductPageState extends State<ProductPage> {
                             ),
                             // Valider que le champ contient un numéro de téléphone valide
                             validator: (value) {
-                              if (value!.isEmpty ||
-                                  !value.startsWith('+') ||
-                                  value.length < 10) {
+                              if (value!.isEmpty || value.length < 10) {
                                 return 'Veuillez entrer un numéro de Compte valide';
                               }
                               return null;
@@ -350,9 +349,7 @@ class _ProductPageState extends State<ProductPage> {
                             ),
                             // Valider que le champ contient un numéro de téléphone valide
                             validator: (value) {
-                              if (value!.isEmpty ||
-                                  !value.startsWith('+') ||
-                                  value.length < 10) {
+                              if (value!.isEmpty || value.length < 10) {
                                 return 'Veuillez entrer un numéro de téléphone valide';
                               }
                               return null;
@@ -414,7 +411,6 @@ class _ProductPageState extends State<ProductPage> {
                                 child: ElevatedButton.icon(
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
-                                      await firebaseApi().sendAchatNotif();
                                       _addAchatToFirestore();
                                     }
                                   },

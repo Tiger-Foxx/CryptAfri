@@ -105,14 +105,17 @@ class _AddProductScreenState extends State<AddProductScreen>
               'cle': doc['name'].toString(),
             })
         .toList();
-    Maxs = filterUnique(Maxs, 'name');
+    Maxs = filterUnique(Maxs, 'cle');
     prixAchats = querySnapshot.docs
         .map((doc) => {
               doc['name'].toString(): int.parse(doc['prix_achat'].toString()),
               'cle': doc['name'].toString(),
             })
         .toList();
-    prixAchats = filterUnique(prixAchats, 'name');
+    prixAchats = filterUnique(prixAchats, 'cle');
+    print("Maxs " + Maxs.toString());
+    print("Achats " + prixAchats.toString());
+    print("Categories " + categories.toString());
     // Retourner la liste de Map<String, dynamic>
     return categories;
   }
@@ -164,7 +167,7 @@ class _AddProductScreenState extends State<AddProductScreen>
   final _formKey = GlobalKey<FormState>();
 
   // Créer des variables pour stocker les valeurs des champs du formulaire
-  int prix_choix = 0;
+  int prix_choix = 70;
   String? _category = "TRX";
   String? _portefeuille = "TRC 20";
   String? _description;

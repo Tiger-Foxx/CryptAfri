@@ -2,6 +2,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cryptafri/screens/Splash_screen_info.dart';
 import 'package:cryptafri/screens/Splash_screen_info2.dart';
 import 'package:cryptafri/screens/services/firebase_api.dart';
+import 'package:firebase_admin/firebase_admin.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptafri/screens/AddProductScreen.dart';
@@ -26,6 +27,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   await firebaseApi().initNotifications();
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     print("contenuuuuuuuuuuuuuu : " + message.data['link']);

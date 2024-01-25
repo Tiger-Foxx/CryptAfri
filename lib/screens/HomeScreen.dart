@@ -1,3 +1,4 @@
+import 'package:cryptafri/screens/profileScreen.dart';
 import 'package:cryptafri/screens/services/firebase_api.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptafri/screens/services/products.services.dart';
@@ -255,7 +256,7 @@ class __HeroWidgetState extends State<_HeroWidget> {
           onPressed: () async {
             var message =
                 'MESSAGE CRYPTAFRI ! \nASSISTANCE CLIENT\n\n\n\n Bonjour je suis : ';
-            var number = '+237658866639';
+            var number = ProfilePage.whatsapp;
             // Encoder le message
             String encodedMessage = Uri.encodeComponent(message);
 

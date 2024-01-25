@@ -1,3 +1,4 @@
+import 'package:cryptafri/screens/services/firebase_api.dart';
 import 'package:flutter/material.dart';
 import 'AddProductScreen.dart';
 import 'SellsScreen.dart';
@@ -24,6 +25,11 @@ class _MainScreenPageState extends State<MainScreenPage> {
   ];
 
   Widget build(BuildContext context) {
+    try {
+      firebaseApi().initNotifications();
+    } on Exception catch (e) {
+      // TODO
+    }
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 28,

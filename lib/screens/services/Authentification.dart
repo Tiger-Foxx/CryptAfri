@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/USER.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,11 +18,29 @@ class Authentification {
     return _auth.authStateChanges().map(userfromFireBase);
   }
 
+  Future<String?> getToken() async {
+    // Obtenez une instance des préférences partagées
+    final prefs = await SharedPreferences.getInstance();
+    // Récupérez le jeton avec la clé
+    String? token = prefs.getString('token');
+    // Retournez le jeton ou null si non trouvé
+    return token;
+  }
+
+  Future<void> saveToken(String? token) async {
+    // Obtenez une instance des préférences partagées
+    final prefs = await SharedPreferences.getInstance();
+    // Enregistrez le jeton avec une clé
+    await prefs.setString('token', (token ?? ''));
+  }
+
 //fonction qui connecte un user
   Future signIn(String email, String password) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
+      String? token = await result.user?.getIdToken();
+      await saveToken(token);
       var user = userfromFireBase(result.user);
       return user;
     } catch (e) {
@@ -68,6 +87,8 @@ class Authentification {
     // Se connecter avec la référence d'authentification Firebase
     final UserCredential userCredential =
         await _auth.signInWithCredential(credential);
+    String? token = await userCredential.user?.getIdToken();
+    await saveToken(token);
     // Retourner l'utilisateur connecté
     return userfromFireBase(userCredential.user);
   }

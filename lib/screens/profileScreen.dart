@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ProfilePage extends StatelessWidget {
-  static String email = 'criptafri0@gmail.com';
+  static String email = 'cryptafri@gmail.com';
   static String OM = "658121197";
   static String MOMO = "678585611";
   static String whatsapp = '+237678585611';
@@ -77,9 +77,9 @@ class ProfilePage extends StatelessWidget {
     {
       'icon': "assets/images/MOMO.png",
       'title': 'MTN MOMO CriptAfri \n(CESAR LONTSI) | 678585611',
-      'data': "#150*1*1*" + MOMO + "#",
+      'data': MOMO,
       'onTap': (context) {
-        var number = Uri.encodeComponent("#150*1*1*" + MOMO + "#");
+        var number = Uri.encodeComponent("*126#");
 
         // Construire l'URL
         String url = 'tel:$number';

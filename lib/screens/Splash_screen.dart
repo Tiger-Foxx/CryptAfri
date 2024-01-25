@@ -1,3 +1,5 @@
+import 'package:cryptafri/screens/main_screen_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'onboarding_screen.dart';
@@ -47,9 +49,10 @@ class _Splash_screenState extends State<Splash_screen> {
   }
 
   Route _createRoute() {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          OnboardingScreen(),
+          (_auth.currentUser == null ? OnboardingScreen() : MainScreenPage()),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(1.0, 0.0);
         const end = Offset.zero;

@@ -26,7 +26,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     "Découvrez l'application qui va tout changer !",
     "Sur Cryptafri Votre Liberté est TOTALE  !",
     "C'est avant tout l'avantage que notre marché confère !",
-    "Pour les Parieurs Rechargez Aussi facilement vos Comptes de paris\n Via l'Application "
+    "Pour ,les Parieurs Rechargez facilement vos Comptes de paris"
   ];
   final images = [
     "assets/images/0.jpg",
